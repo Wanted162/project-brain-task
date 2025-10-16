@@ -1,5 +1,4 @@
-# Create codepipeline-definition.json
-cat > codepipeline-definition.json << 'EOF'
+
 {
   "pipeline": {
     "name": "brain-tasks-pipeline",
@@ -64,4 +63,3 @@ cat > codepipeline-definition.json << 'EOF'
     ]
   }
 }
-EOF
