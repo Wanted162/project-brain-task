@@ -1,4 +1,4 @@
-cat > buildspec.yml << 'EOF'
+@'
 version: 0.2
 
 phases:
@@ -6,7 +6,7 @@ phases:
     commands:
       - echo "Logging in to Amazon ECR..."
       - aws --version
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 907969929387.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=907969929387.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -20,10 +20,10 @@ phases:
       - echo "Pushing Docker images to ECR..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo "Writing image definitions file..."
-      - printf '[{"name":"brain-tasks-app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - echo "Build completed on `date`"
+      - echo "Pushing image: $REPOSITORY_URI:latest"
 artifacts:
   files:
+    - k8s/**/*
     - imagedefinitions.json
-    - k8s/*.yaml
-EOF
+'@ | Out-File -FilePath "buildspec.yml" -Encoding utf8

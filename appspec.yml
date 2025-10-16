@@ -1,4 +1,3 @@
-cat > appspec.yml << 'EOF'
 version: 0.0
 Resources:
   - TargetService:
@@ -8,4 +7,4 @@ Resources:
         LoadBalancerInfo:
           ContainerName: "brain-tasks-app"
           ContainerPort: 80
-EOF
+        PlatformVersion: "LATEST"
