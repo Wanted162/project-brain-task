@@ -1,0 +1,67 @@
+# Create codepipeline-definition.json
+cat > codepipeline-definition.json << 'EOF'
+{
+  "pipeline": {
+    "name": "brain-tasks-pipeline",
+    "roleArn": "arn:aws:iam::907969929387:role/CodePipelineServiceRole-brain-tasks",
+    "artifactStore": {
+      "type": "S3",
+      "location": "codepipeline-ap-south-1-907969929387"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "Source",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "ThirdParty",
+              "provider": "GitHub",
+              "version": "1"
+            },
+            "configuration": {
+              "Owner": "Wanted162",
+              "Repo": "project-brain-task",
+              "Branch": "main",
+              "OAuthToken": "***"
+            },
+            "outputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Build",
+        "actions": [
+          {
+            "name": "Build",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "configuration": {
+              "ProjectName": "brain-tasks-app-build"
+            },
+            "inputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ],
+            "outputArtifacts": [
+              {
+                "name": "BuildArtifact"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF

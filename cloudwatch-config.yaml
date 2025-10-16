@@ -1,0 +1,20 @@
+# Create cloudwatch-config.yaml
+cat > cloudwatch-config.yaml << 'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudwatch-agent-config
+  namespace: amazon-cloudwatch
+data:
+  cloudwatch-agent-config.json: |
+    {
+      "logs": {
+        "metrics_collected": {
+          "kubernetes": {
+            "cluster_name": "brain-task-cluster",
+            "metrics_collection_interval": 60
+          }
+        }
+      }
+    }
+EOF
