@@ -19,6 +19,10 @@ phases:
       - echo "Pushing Docker images to ECR..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "Deploying to Kubernetes..."
+      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name brain-task-cluster
+      - kubectl set image deployment/brain-tasks-app brain-tasks-app=$REPOSITORY_URI:latest
+      - echo "Deployment completed successfully!"
       - echo "Build completed on `date`"
 artifacts:
   files:
