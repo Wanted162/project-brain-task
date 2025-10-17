@@ -1,13 +1,17 @@
 exports.handler = async (event) => {
-    console.log("Lambda deployment triggered");
+    console.log("Deployment triggered for Brain Tasks App");
     
-    // This Lambda will always succeed
+    // Simulate deployment process
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            message: "Deployment successful via Lambda",
-            timestamp: new Date().toISOString()
+            message: "Deployment successful via AWS Lambda",
+            application: "brain-tasks-app", 
+            timestamp: new Date().toISOString(),
+            status: "SUCCESS"
         }),
     };
+    
+    console.log("Deployment completed successfully");
     return response;
 };
