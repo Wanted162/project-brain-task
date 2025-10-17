@@ -1,3 +1,7 @@
+# Create a clean buildspec.yml
+@'
+version: 0.2
+
 phases:
   pre_build:
     commands:
@@ -20,4 +24,5 @@ phases:
       - echo "Build completed on `date`"
 artifacts:
   files:
-    - '**/*'
+    - "**/*"
+'@ | Out-File -FilePath "buildspec.yml" -Encoding utf8
