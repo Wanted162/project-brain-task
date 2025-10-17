@@ -15,7 +15,9 @@ phases:
     commands:
       - echo "Pushing to ECR"
       - docker push $REPOSITORY_URI:latest
+      - printf '[{"name":"brain-tasks-app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
       - echo "Build completed successfully"
 artifacts:
   files:
     - "**/*"
+    - "imagedefinitions.json"
