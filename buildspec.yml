@@ -1,5 +1,3 @@
-# Create a clean buildspec.yml
-@'
 version: 0.2
 
 phases:
@@ -25,4 +23,3 @@ phases:
 artifacts:
   files:
     - "**/*"
-'@ | Out-File -FilePath "buildspec.yml" -Encoding utf8

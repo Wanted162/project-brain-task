@@ -1,5 +1,3 @@
-# Create appspec.yml
-@'
 version: 0.0
 os: linux
 files:
@@ -9,14 +7,3 @@ hooks:
   ApplicationStart:
     - location: scripts/always_succeed.sh
       timeout: 300
-'@ | Out-File -FilePath "appspec.yml" -Encoding utf8
-
-# Create scripts directory and always_succeed.sh
-New-Item -ItemType Directory -Force -Path "scripts"
-
-@'
-#!/bin/bash
-echo "CodeDeploy deployment successful!"
-echo "This is a mock deployment for EKS demonstration"
-exit 0
-'@ | Out-File -FilePath "scripts/always_succeed.sh" -Encoding utf8
