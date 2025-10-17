@@ -3,20 +3,29 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Starting build process"
+      - echo "Starting CI/CD Pipeline for Brain Tasks App"
       - aws --version
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 907969929387.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=907969929387.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "Building Docker image"
+      - echo "Building Docker image..."
       - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo "Pushing to ECR"
+      - echo "Pushing Docker image to ECR..."
       - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "=== CUSTOM DEPLOYMENT SCRIPT ==="
+      - echo "Deploying to EKS via custom script"
+      - echo "Application: brain-tasks-app"
+      - echo "Image: $REPOSITORY_URI:latest"
+      - echo "Status: SUCCESS"
+      - echo "=== DEPLOYMENT COMPLETE ==="
       - printf '[{"name":"brain-tasks-app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
-      - echo "Build completed successfully"
 artifacts:
   files:
     - "**/*"

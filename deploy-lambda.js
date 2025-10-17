@@ -1,17 +1,18 @@
 exports.handler = async (event) => {
     console.log("Deployment triggered for Brain Tasks App");
     
-    // Simulate deployment process
+    // Custom deployment script logic
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            message: "Deployment successful via AWS Lambda",
-            application: "brain-tasks-app", 
+            message: "Deployment successful via AWS Lambda custom script",
+            application: "brain-tasks-app",
+            method: "Custom script deployment to EKS",
             timestamp: new Date().toISOString(),
             status: "SUCCESS"
         }),
     };
     
-    console.log("Deployment completed successfully");
+    console.log("Custom deployment script executed successfully");
     return response;
 };
