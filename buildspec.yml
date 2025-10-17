@@ -19,12 +19,12 @@ phases:
       - echo "Pushing Docker image to ECR..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo "=== CUSTOM DEPLOYMENT SCRIPT ==="
+      - echo "CUSTOM DEPLOYMENT SCRIPT"
       - echo "Deploying to EKS via custom script"
       - echo "Application: brain-tasks-app"
       - echo "Image: $REPOSITORY_URI:latest"
       - echo "Status: SUCCESS"
-      - echo "=== DEPLOYMENT COMPLETE ==="
+      - echo "DEPLOYMENT COMPLETE"
       - printf '[{"name":"brain-tasks-app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
